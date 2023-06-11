@@ -8,7 +8,7 @@ import javax.swing.*;
 
 /**
  *
- * @author pablo
+ * @author Rodrigo Ortiz y Pablo Velez
  */
 public class OpcMult extends JFrame {
 

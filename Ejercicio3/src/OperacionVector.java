@@ -7,7 +7,7 @@ import javax.swing.*;
 
 /**
  *
- * @author adm
+ * @author Rodrigo Ortiz y Pablo Velez
  */
 public class OperacionVector extends JFrame {
 
