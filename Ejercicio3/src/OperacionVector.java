@@ -1,9 +1,8 @@
 
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -20,7 +19,7 @@ public class OperacionVector extends JFrame {
 
     public OperacionVector() {
         setLayout(new FlowLayout());
-        ManejadorEnter mnjEnt = new ManejadorEnter();
+        ManejadorBotones mnjBtn = new ManejadorBotones();
         lblVector1 = new JLabel("Vector 1 ");
         lblVector2 = new JLabel("     Vector 2 ");
         lblEjemplo = new JLabel("                             Ej: (3, 4.1)");
@@ -47,10 +46,7 @@ public class OperacionVector extends JFrame {
         txtVector2.setFont(new Font("Helvetica", Font.PLAIN, 15));
 
         txtSalida.setEditable(false);
-        txtSalida.setFont(new Font("Helvetica", Font.BOLD, 12));
-
-        txtVector1.addKeyListener(mnjEnt);
-        txtVector2.addKeyListener(mnjEnt);
+        txtSalida.setFont(new Font("Helvetica", Font.PLAIN, 16));
 
         add(lblVector1);
         add(txtVector1);
@@ -59,8 +55,9 @@ public class OperacionVector extends JFrame {
         add(lblEjemplo);
         add(lblEjemplo1);
         for (int i = 0; i < 4; i++) {
+            botones[i].addActionListener(mnjBtn);
             add(botones[i]);
-            botones[i].setFont(new Font("Helvetica", Font.PLAIN, 15));
+            botones[i].setFont(new Font("Helvetica", Font.PLAIN, 16));
         }
 
         add(txtSalida);
@@ -82,18 +79,69 @@ public class OperacionVector extends JFrame {
                 texto = "Vector 1";
             }
             
-            JOptionPane.showMessageDialog(this, "Ingrese el "+texto+" con el formato proporcionado debajo del recuadro", "ERROR", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ingrese el "+texto+" con el formato proporcionado debajo del recuadro", "ERROR", JOptionPane.ERROR_MESSAGE);
+            
+            btnOpc.clearSelection();
+            
         }else{
             double compVct1[] = convertirAVector(vector1);
             double compVct2[] = convertirAVector(vector2);
             
+            double resultado[];
             if(botones[0].isSelected()){
-                sumaVectores(compVct1, compVct2);
+                resultado = sumaVectores(compVct1, compVct2);
+                txtSalida.setText("La suma de los vectores:\n"+crearFormato(compVct1)+" + "+crearFormato(compVct2)+" = "+crearFormato(resultado));
+            }
+            else if(botones[1].isSelected()){
+                resultado = restaVectores(compVct1, compVct2);
+                txtSalida.setText("La resta de los vectores:\n"+crearFormato(compVct1)+" - "+crearFormato(compVct2)+" = "+crearFormato(resultado));
+            }
+            else if(botones[2].isSelected()){
+                double prodEsc = productoEscalar(compVct1, compVct2);
+                txtSalida.setText("El producto escalar de los vectores:\n"+prodEsc);
+            }
+            else if(botones[3].isSelected()){
+                
             }
             
-            
-            
         }
+    }
+    
+    public static String crearFormato(double vector[]){
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("(");
+        for (int i = 0; i < vector.length-1; i++) {
+            sb.append(vector[i]).append(", ");
+        }
+        sb.append(vector[vector.length-1]).append(")");
+        
+        return sb.toString();
+    }
+    
+    public double[] restaVectores(double v1[],double v2[]){
+        int tamanio = v1.length;
+        if(tamanio<v2.length){
+            tamanio = v2.length;
+        }
+        
+        double[] vectorResultante = new double[tamanio];
+        
+        double valor1,valor2;
+        for (int i = 0; i < tamanio; i++) {
+            valor1 = 0;
+            valor2 = 0;
+            if(i<=(v1.length-1)){
+                valor1 = v1[i];
+            }
+            if(i<=(v2.length-1)){
+                valor2 = v2[i];
+            }
+            
+            vectorResultante[i] = valor1-valor2;
+        }
+        
+        return vectorResultante;
     }
     
     public double[] sumaVectores(double v1[],double v2[]){
@@ -118,11 +166,32 @@ public class OperacionVector extends JFrame {
             vectorResultante[i] = valor1+valor2;
         }
         
-        for (double d : vectorResultante) {
-            System.out.println(d);
+        return vectorResultante;
+    }
+    
+    public double productoEscalar(double v1[],double v2[]){
+        int tamanio = v1.length;
+        if(tamanio<v2.length){
+            tamanio = v2.length;
         }
         
-        return vectorResultante;
+        double productoEscalar = 0;
+        
+        double valor1,valor2;
+        for (int i = 0; i < tamanio; i++) {
+            valor1 = 0;
+            valor2 = 0;
+            if(i<=(v1.length-1)){
+                valor1 = v1[i];
+            }
+            if(i<=(v2.length-1)){
+                valor2 = v2[i];
+            }
+            
+            productoEscalar += (valor1*valor2);
+        }
+        
+        return productoEscalar;
     }
     
     public double[] convertirAVector(String v1){
@@ -137,26 +206,17 @@ public class OperacionVector extends JFrame {
     }
 
     public static boolean validarVector(String s) {
-        return s.matches("\\([0-9]+(.[0-9]+)?(, [0-9]+(.[0-9]+)?){1,2}\\)");
+        return s.matches("\\((\\+|-)?[0-9]+(.[0-9]+)?(, (\\+|-)?[0-9]+(.[0-9]+)?){1,2}\\)");
     }
 
-    private class ManejadorEnter implements KeyListener {
+    
+    private class ManejadorBotones implements ActionListener{
 
         @Override
-        public void keyTyped(KeyEvent e) {
+        public void actionPerformed(ActionEvent e) {
+            generarAccion();
         }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                generarAccion();
-            }
-        }
-
+        
     }
 
     public static void main(String[] args) {
