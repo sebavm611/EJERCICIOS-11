@@ -101,7 +101,13 @@ public class OperacionVector extends JFrame {
                 txtSalida.setText("El producto escalar de los vectores:\n"+prodEsc);
             }
             else if(botones[3].isSelected()){
-                
+                if((compVct1.length!=3) || (compVct2.length!=3)){
+                    JOptionPane.showMessageDialog(this, "Ambos vectores deben ser de tres dimensiones","ERROR",JOptionPane.ERROR_MESSAGE);
+                    btnOpc.clearSelection();
+                }else{
+                    double prodPunto[] = productoCruz(compVct1, compVct2);
+                    txtSalida.setText("El producto punto de los vectores:\n"+crearFormato(prodPunto));
+                }
             }
             
         }
@@ -112,9 +118,9 @@ public class OperacionVector extends JFrame {
         
         sb.append("(");
         for (int i = 0; i < vector.length-1; i++) {
-            sb.append(vector[i]).append(", ");
+            sb.append(String.format("%.2f", vector[i])).append(", ");
         }
-        sb.append(vector[vector.length-1]).append(")");
+        sb.append(String.format("%.2f", vector[vector.length-1])).append(")");
         
         return sb.toString();
     }
@@ -203,6 +209,15 @@ public class OperacionVector extends JFrame {
         }
         
         return cmp1;
+    }
+    
+    public double[] productoCruz(double vector1[],double vector2[]){
+        double[] producto = new double[3];
+        producto[0] = vector1[1] * vector2[2] - vector1[2] * vector2[1];
+        producto[1] = vector1[2] * vector2[0] - vector1[0] * vector2[2];
+        producto[2] = vector1[0] * vector2[1] - vector1[1] * vector2[0];
+
+        return producto;
     }
 
     public static boolean validarVector(String s) {

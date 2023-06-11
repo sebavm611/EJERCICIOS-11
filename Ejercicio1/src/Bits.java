@@ -3,7 +3,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigInteger;
 import javax.swing.*;
 
 /**
@@ -340,8 +339,13 @@ public class Bits extends JFrame {
         
         return codificacionModuloSignoBits(ne, bits);    
     }
+    
+     public void mostrarInfo(){
+        
+        JOptionPane.showMessageDialog(this, "Programa realizado por Pablo Velez y Rodrigo Ortiz\nFecha de creacion: 10/06/2023","Informacion",JOptionPane.INFORMATION_MESSAGE);
+    }
 
-    public class ManejadorEventos implements ActionListener {
+    private class ManejadorEventos implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == items[0]) {
@@ -352,6 +356,8 @@ public class Bits extends JFrame {
                 codificarComplemento2();
             }else if(e.getSource() == items[3]){
                 codificarExceso();
+            }else if(e.getSource() == items[4]){
+                mostrarInfo();
             }
         }
 
