@@ -59,8 +59,9 @@ public class OperacionVector extends JFrame {
             add(botones[i]);
             botones[i].setFont(new Font("Helvetica", Font.PLAIN, 16));
         }
-
+        
         add(txtSalida);
+        setTitle("Operaciones con vectores");
         setSize(550, 325);
         setResizable(false);
         setVisible(true);
@@ -106,7 +107,7 @@ public class OperacionVector extends JFrame {
                     btnOpc.clearSelection();
                 }else{
                     double prodPunto[] = productoCruz(compVct1, compVct2);
-                    txtSalida.setText("El producto punto de los vectores:\n"+crearFormato(prodPunto));
+                    txtSalida.setText("El producto vectorial de los vectores:\n"+crearFormato(prodPunto));
                 }
             }
             
@@ -236,7 +237,6 @@ public class OperacionVector extends JFrame {
 
     public static void main(String[] args) {
         OperacionVector ov = new OperacionVector();
-        System.out.println(validarVector("(12.524, 12.524)"));
     }
 
 }

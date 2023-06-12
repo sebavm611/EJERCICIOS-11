@@ -65,7 +65,8 @@ public class Bits extends JFrame {
         items[2].addActionListener(mnj);
         items[3].addActionListener(mnj);
         items[4].addActionListener(mnj);
-
+        
+        setTitle("Codificaciones");
         setJMenuBar(mnu);
         add(espacio1);
         add(lbl1);
@@ -97,7 +98,7 @@ public class Bits extends JFrame {
         if (numero > 0) {
             codigo.append("0");
         } else {
-           return complementoADos(valorAbsoluto, bits);
+            return complementoADos(valorAbsoluto, bits);
         }
 
         String binario = Long.toBinaryString(valorAbsoluto);
@@ -271,7 +272,7 @@ public class Bits extends JFrame {
             }
         }
     }
-    
+
     public void codificarExceso() {
         String num = txt1.getText(), bits = txt2.getText();
 
@@ -332,17 +333,17 @@ public class Bits extends JFrame {
 
         return complementoDos.toString();
     }
-    
-    public static String exceso2n(Long num,int bits){
-        
-        Long ne = (long) (num + Math.pow(2,bits-1));
-        
-        return codificacionModuloSignoBits(ne, bits);    
+
+    public static String exceso2n(Long num, int bits) {
+
+        Long ne = (long) (num + Math.pow(2, bits - 1));
+
+        return codificacionModuloSignoBits(ne, bits);
     }
-    
-     public void mostrarInfo(){
-        
-        JOptionPane.showMessageDialog(this, "Programa realizado por Pablo Velez y Rodrigo Ortiz\nFecha de creacion: 10/06/2023","Informacion",JOptionPane.INFORMATION_MESSAGE);
+
+    public void mostrarInfo() {
+
+        JOptionPane.showMessageDialog(this, "Programa realizado por Pablo Velez y Rodrigo Ortiz\nFecha de creacion: 10/06/2023", "Informacion", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private class ManejadorEventos implements ActionListener {
@@ -354,9 +355,9 @@ public class Bits extends JFrame {
                 codificarComplemento1();
             } else if (e.getSource() == items[2]) {
                 codificarComplemento2();
-            }else if(e.getSource() == items[3]){
+            } else if (e.getSource() == items[3]) {
                 codificarExceso();
-            }else if(e.getSource() == items[4]){
+            } else if (e.getSource() == items[4]) {
                 mostrarInfo();
             }
         }
